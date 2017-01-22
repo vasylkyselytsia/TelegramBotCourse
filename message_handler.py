@@ -6,8 +6,10 @@ from sqlalchemy.orm import sessionmaker
 from settings import *
 from db_models import BotUser
 from googleplaces import GooglePlaces
+import time
+from urllib.request import urlretrieve
+from utils import get_name_of_file
 
-# import requests
 
 bot = telebot.TeleBot(BOT_KEY)
 engine = create_engine(DB_PATH)
@@ -69,7 +71,7 @@ def start_handler(message):
 
 
 @bot.message_handler(content_types=['location'])
-def search_handler(message):
+def get_new_location_handler(message):
     # Add coordinate To DB
     session = Session()
     try:
@@ -91,7 +93,7 @@ def search_handler(message):
 def text_handler(message):
 
     session = Session()
-
+    # bot.get_user_profile_photos()
     try:
         user = session.query(BotUser).filter(
             BotUser.chat_id == int(message.chat.id),
@@ -110,8 +112,6 @@ def text_handler(message):
         for place in places_result.places[:2]:
             place.get_details()
             location = place.geo_location
-            if location:
-                bot.send_location(message.chat.id, location.get('lat'), location.get('lng'))
 
             message_text = MESSAGE_FORM.format(
                 place.name, place.formatted_address,
@@ -122,6 +122,37 @@ def text_handler(message):
 
             bot.send_message(message.chat.id, message_text, parse_mode='HTML')
 
+            if location:
+                bot.send_location(message.chat.id, location.get('lat'), location.get('lng'))
+
+            # photos = [photo.get(maxheight=500, maxwidth=500) for photo in place.photos]
+
+            k = 0
+
+            if not place.photos:
+                return
+
+            bot.send_message(message.chat.id, PHOTO_TEXT_HTML.format(place.name), parse_mode='HTML')
+
+            for photo in place.photos:
+                if k >= 2:
+                    break
+                else:
+                    k += 1
+
+                photo.get(maxheight=500, maxwidth=500)
+
+                try:
+                    bot.send_chat_action(message.chat.id, 'upload_photo')
+                    file_path = IMAGE_PATH + '{}.jpg'.format(get_name_of_file())
+                    urlretrieve(photo.url, file_path)
+                    new_photo = open(file_path, 'rb')
+                    bot.send_photo(message.chat.id, new_photo, reply_to_message_id=message.message_id)
+                    new_photo.close()
+                except Exception as e:
+                    print(e)
+                    continue
+
     except NoResultFound:
         bot.send_message(message.chat.id, 'Ви не надали доступ до свого місцезнаходження')
 
@@ -129,6 +160,7 @@ def text_handler(message):
 def main():
     try:
         bot.polling(none_stop=True, interval=0)
+        time.sleep(0)
     except Exception as e:
         print(e)
         main()
