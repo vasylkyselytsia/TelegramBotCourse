@@ -1,4 +1,4 @@
-from settings import IMAGE_PATH
+from .settings import IMAGE_PATH
 import datetime
 from os import listdir, remove
 from os.path import isfile, join

@@ -125,29 +125,23 @@ def text_handler(message):
             if location:
                 bot.send_location(message.chat.id, location.get('lat'), location.get('lng'))
 
-            # photos = [photo.get(maxheight=500, maxwidth=500) for photo in place.photos]
+            photos = [photo for photo in place.photos]  # In Python 3 Map objects to List
 
-            k = 0
-
-            if not place.photos:
-                return
+            if not photos:
+                continue
 
             bot.send_message(message.chat.id, PHOTO_TEXT_HTML.format(place.name), parse_mode='HTML')
 
-            for photo in place.photos:
-                if k >= 2:
-                    break
-                else:
-                    k += 1
+            for photo in photos[:2]:
 
-                photo.get(maxheight=500, maxwidth=500)
+                photo.get(maxheight=1000, maxwidth=1000)
 
                 try:
                     bot.send_chat_action(message.chat.id, 'upload_photo')
                     file_path = IMAGE_PATH + '{}.jpg'.format(get_name_of_file())
                     urlretrieve(photo.url, file_path)
                     new_photo = open(file_path, 'rb')
-                    bot.send_photo(message.chat.id, new_photo, reply_to_message_id=message.message_id)
+                    bot.send_photo(message.chat.id, new_photo, caption=photo.filename)
                     new_photo.close()
                 except Exception as e:
                     print(e)
