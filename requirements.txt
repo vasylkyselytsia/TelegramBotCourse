@@ -1,0 +1,15 @@
+googlemaps==2.4.5
+joblib==0.10.3
+numpy==1.11.2
+pandas==0.19.1
+psycopg2==2.6.2
+pyTelegramBotAPI==2.3.0
+python-dateutil==2.6.0
+requests==2.11.1
+singledispatch==3.4.0.3
+six==1.10.0
+SQLAlchemy==1.1.5
+win-unicode-console==0.5
+gunicorn==19.6.0
+psycopg2==2.6.1
+whitenoise==2.0.6
