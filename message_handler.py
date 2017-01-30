@@ -9,7 +9,7 @@ from googleplaces import GooglePlaces
 import time
 from urllib.request import urlretrieve
 from utils import get_name_of_file
-
+import re
 
 bot = telebot.TeleBot(BOT_KEY)
 engine = create_engine(DB_PATH)
@@ -48,11 +48,16 @@ def query_parser(message_text):
     keys = MY_TYPES.keys()
 
     for key in keys:
-        if key.upper() in message_text:
+        if key.upper()[:-2] in message_text:  # [:-2] Щоб відкинути закінчення
             query['types'].append(MY_TYPES[key])
 
-    # if set(message_text.split()) & {u'РАДІУС', u'РАДІУСІ'}:
-    #     return message_text
+    # digests = re.findall(r'([0-9]{1,4})', message_text)  # Пошук Цифер у Строці
+
+    radius = list(set(re.findall(r'РАДІУСІ\b\s*((?:\d+){0,3})', message_text)) | set(
+                      re.findall(r'РАДІУС\b\s*((?:\d+){0,3})', message_text)))
+
+    query['radius'] = int(radius[0]) if radius else 1000  # Якщо в повідомленні є радіус то задаємо, інакше 1000 м
+
     return query
 
 
@@ -155,6 +160,7 @@ def main():
         time.sleep(0)
     except Exception as e:
         print(e)
+        time.sleep(5)
         main()
 
 if __name__ == "__main__":
