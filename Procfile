@@ -1,1 +1,1 @@
-web: python message_handler.py
+worker: python message_handler.py $TOKEN

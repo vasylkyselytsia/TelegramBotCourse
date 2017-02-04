@@ -6,10 +6,10 @@ from sqlalchemy.orm import sessionmaker
 from settings import *
 from db_models import BotUser
 from googleplaces import GooglePlaces
-import time
+import sys
 import re
 
-bot = telebot.TeleBot(BOT_KEY)
+bot = telebot.TeleBot(sys.argv[1])
 engine = create_engine(DB_PATH)
 Session = sessionmaker(bind=engine)
 
@@ -54,7 +54,7 @@ def query_parser(message_text):
     radius = list(set(re.findall(r'РАДІУСІ\b\s*((?:\d+){0,3})', message_text)) | set(
                       re.findall(r'РАДІУС\b\s*((?:\d+){0,3})', message_text)))
 
-    query['radius'] = int(radius[0]) if radius else 1000  # Якщо в повідомленні є радіус то задаємо, інакше 1000 м
+    query['radius'] = int(radius[0]) if radius else 30000  # Якщо в повідомленні є радіус то задаємо, інакше 1000 м
 
     return query
 
@@ -148,13 +148,6 @@ def text_handler(message):
                 continue
 
 
-def main():
-    try:
-        bot.set_webhook(BOT_KEY, 'https://telegram-bot-search.herokuapp.com/')
-        time.sleep(0)
-    except Exception as e:
-        print(e)
-        main()
-
 if __name__ == "__main__":
-    main()
+    # bot.polling(none_stop=True)
+    bot.set_webhook('https://telegram-bot-search.herokuapp.com/')
