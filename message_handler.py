@@ -150,7 +150,7 @@ def text_handler(message):
 
 def main():
     try:
-        bot.polling(none_stop=True, interval=0)
+        bot.set_webhook(BOT_KEY, 'https://telegram-bot-search.herokuapp.com/')
         time.sleep(0)
     except Exception as e:
         print(e)
