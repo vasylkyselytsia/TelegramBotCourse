@@ -7,8 +7,6 @@ from settings import *
 from db_models import BotUser
 from googleplaces import GooglePlaces
 import time
-from urllib.request import urlretrieve
-from utils import get_name_of_file
 import re
 
 bot = telebot.TeleBot(BOT_KEY)
@@ -144,11 +142,7 @@ def text_handler(message):
 
             try:
                 bot.send_chat_action(message.chat.id, 'upload_photo')
-                file_path = IMAGE_PATH + '{}.jpg'.format(get_name_of_file())
-                urlretrieve(photo.url, file_path)
-                new_photo = open(file_path, 'rb')
-                bot.send_photo(message.chat.id, new_photo, caption=photo.filename)
-                new_photo.close()
+                bot.send_photo(message.chat.id, photo.url, caption=photo.filename)
             except Exception as e:
                 print(e)
                 continue
@@ -160,7 +154,6 @@ def main():
         time.sleep(0)
     except Exception as e:
         print(e)
-        time.sleep(5)
         main()
 
 if __name__ == "__main__":
