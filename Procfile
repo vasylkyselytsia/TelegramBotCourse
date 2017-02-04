@@ -1,1 +1,1 @@
-worker: python message_handler.py $TOKEN
+worker: python message_handler.py $BOT_TOKEN
