@@ -8,8 +8,12 @@ from db_models import BotUser
 from googleplaces import GooglePlaces
 import sys
 import re
+from log_settings import logger
+import datetime
 
-bot = telebot.TeleBot(sys.argv[1])
+TOKEN = sys.argv[1] if len(sys.argv) > 1 else BOT_KEY
+
+bot = telebot.TeleBot(TOKEN)
 engine = create_engine(DB_PATH)
 Session = sessionmaker(bind=engine)
 
@@ -143,11 +147,21 @@ def text_handler(message):
             try:
                 bot.send_chat_action(message.chat.id, 'upload_photo')
                 bot.send_photo(message.chat.id, photo.url, caption=photo.filename)
-            except Exception as e:
-                print(e)
+            except Exception as error:
+                print(error)
                 continue
 
 
 if __name__ == "__main__":
-    # bot.polling(none_stop=True)
-    bot.set_webhook('https://telegram-bot-search.herokuapp.com/')
+    try:
+        run_bot_time = datetime.datetime.now()
+        logger.info('-' * 100)
+        logger.info((('*' * 28) + '| BOT START TIME|{}|' + ('*' * 28)).format(
+            str(run_bot_time)))
+        logger.info('-' * 100)
+        # bot.remove_webhook()
+        # bot.polling(none_stop=True)
+        bot.set_webhook('https://telegram-bot-search.herokuapp.com/')
+    except Exception as e:
+        print(e)
+
