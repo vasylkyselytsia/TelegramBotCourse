@@ -159,9 +159,8 @@ if __name__ == "__main__":
         logger.info((('*' * 28) + '| BOT START TIME|{}|' + ('*' * 28)).format(
             str(run_bot_time)))
         logger.info('-' * 100)
-        # bot.remove_webhook()
-        # bot.polling(none_stop=True)
         bot.set_webhook('https://telegram-bot-search.herokuapp.com/')
+        bot.get_updates()
     except Exception as e:
         print(e)
 
