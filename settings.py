@@ -38,7 +38,8 @@ MESSAGE_FORM = '''
 
 MY_TYPES = {'Ресторани': google_types.TYPE_RESTAURANT, "Кав'ярні": google_types.TYPE_CAFE,
             'Готелі': google_types.TYPE_ROOM, 'Нічні клуби': google_types.TYPE_NIGHT_CLUB,
-            'Кінотеатри': google_types.TYPE_MOVIE_THEATER, 'Парки': google_types.TYPE_PARK}
+            'Кінотеатри': google_types.TYPE_MOVIE_THEATER, 'Парки': google_types.TYPE_PARK,
+            'Аптеки': google_types.TYPE_PHARMACY, 'Лікарні': google_types.TYPE_HOSPITAL}
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 IMAGE_PATH = dir_path + '\media\image' + "\\"

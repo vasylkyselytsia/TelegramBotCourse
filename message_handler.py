@@ -55,12 +55,32 @@ def query_parser(message_text):
 
     # digests = re.findall(r'([0-9]{1,4})', message_text)  # Пошук Цифер у Строці
 
-    radius = list(set(re.findall(r'РАДІУСІ\b\s*((?:\d+){0,3})', message_text)) | set(
-                      re.findall(r'РАДІУС\b\s*((?:\d+){0,3})', message_text)))
+    radius = list(re.findall(r"РАДІУСІ?\b\s*((?:\d+){0,3})\s?(.*)\s?", message_text))
 
-    query['radius'] = int(radius[0]) if radius else 30000  # Якщо в повідомленні є радіус то задаємо, інакше 1000 м
+    radius = radius[0] if radius else radius
 
-    return query
+    radius_query = 30000
+
+    if radius and len(radius) == 1:
+        radius_query = int(radius[0]) if int(radius[0]) <= 50000 else radius_query
+    elif len(radius) > 1:
+        if radius[1].startswith('КМ') or 'КМ' in radius[1][:5]:
+            distance = int(radius[0]) * 1000
+            radius_query = distance if distance <= 50000 else radius_query
+        else:
+            radius_query = int(radius[0]) if int(radius[0]) <= 50000 else radius_query
+
+    photos = list(re.findall(r"І(З|\b\s*ВИВЕДИ)?\b\s*((?:\d+){0,3})\b\s*(ФОТО|ЗОБР)(.*)", message_text))
+
+    photos = photos[0] if photos else photos
+
+    photos_qty = 0 if not photos else int(photos[1])
+
+    query['radius'] = radius_query
+
+    # print(photos, query)
+
+    return {'query': query, 'photos_qty': photos_qty}
 
 
 @bot.message_handler(commands=['help'])
@@ -108,7 +128,9 @@ def text_handler(message):
         bot.send_message(message.chat.id, 'Ви не надали доступ до свого місцезнаходження')
         return
 
-    query = query_parser(message.text)
+    parser = query_parser(message.text)
+    print(parser)
+    query = parser.get('query')
     query['location'] = ','.join(map(str, [user.latitude, user.longitude]))
 
     places_result = google_places.nearby_search(**query)
@@ -140,7 +162,7 @@ def text_handler(message):
 
         bot.send_message(message.chat.id, PHOTO_TEXT_HTML.format(place.name), parse_mode='HTML')
 
-        for photo in photos[:2]:
+        for photo in photos[:parser['photos_qty']]:
 
             photo.get(maxheight=1000, maxwidth=1000)
 
@@ -159,8 +181,10 @@ if __name__ == "__main__":
         logger.info((('*' * 28) + '| BOT START TIME|{}|' + ('*' * 28)).format(
             str(run_bot_time)))
         logger.info('-' * 100)
-        bot.set_webhook('https://telegram-bot-search.herokuapp.com/')
-        bot.get_updates()
+        # bot.delete_webhook()
+        # bot.set_webhook('https://telegram-bot-search.herokuapp.com/')
+        # bot.get_updates()
+        bot.polling(interval=0, none_stop=True)
     except Exception as e:
         print(e)
 
