@@ -30,7 +30,7 @@ def index():
     return ''
 
 
-@app.route(WEB_HOOK_URL_BASE, methods=['POST'])
+@app.route('/{}/'.format(BOT_KEY), methods=['POST'])
 def webhook():
     if flask.request.headers.get('content-type') == 'application/json':
         json_string = flask.request.get_data().decode('utf-8')
