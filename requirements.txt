@@ -9,9 +9,9 @@ pytz==2016.10
 requests==2.12.5
 six==1.10.0
 SQLAlchemy==1.1.5
-Flask-0.12
-Jinja2-2.9.5
-MarkupSafe-1.0
-Werkzeug-0.12.1
-click-6.7
-itsdangerous-0.24
+Flask==0.12
+Jinja2==2.9.5
+MarkupSafe==1.0
+Werkzeug==0.12.1
+click==6.7
+itsdangerous==0.24
