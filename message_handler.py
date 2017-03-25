@@ -206,7 +206,7 @@ if __name__ == "__main__":
         # bot.polling(interval=0, none_stop=True)
         bot.remove_webhook()
         bot.set_webhook(url=WEB_HOOK_URL_BASE)
-        app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000), debug=True)
+        app.run(host="0.0.0.0", port=int(os.environ.get('PORT', '5000')), debug=True)
     except Exception as e:
         print(e)
 
