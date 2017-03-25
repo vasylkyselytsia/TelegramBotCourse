@@ -9,3 +9,4 @@ pytz==2016.10
 requests==2.12.5
 six==1.10.0
 SQLAlchemy==1.1.5
+Flask-0.12

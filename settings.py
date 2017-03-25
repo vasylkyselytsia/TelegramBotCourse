@@ -6,6 +6,10 @@ BOT_KEY = '255777948:AAHC-Lg1qfkd6XKSRbrGGdqnQ52hFsBt1i0'
 GOOGLE_API_KEY = 'AIzaSyAy9cd9ooP5L6bRn5IdkeDrQshGnNduBmE'
 GOOGLE_PLACES_API_KEY = 'AIzaSyD43gPXhDr8aQxrSNULQJ9_95RuNc5VNDA'
 
+WEB_HOOK_HOST = 'telegram-bot-search.herokuapp.com'
+WEB_HOOK_URL_BASE = "https://%s/%s/" % (WEB_HOOK_HOST, BOT_KEY)
+
+
 PLACES_SEARCH_URL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
 TEXT_PLACES_SEARCH_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
 GET_PHOTO_URL = 'https://maps.googleapis.com/maps/api/place/photo'

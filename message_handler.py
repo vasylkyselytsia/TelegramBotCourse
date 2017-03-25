@@ -10,14 +10,35 @@ import sys
 import re
 from log_settings import logger
 import datetime
+import flask
+
 
 TOKEN = sys.argv[1] if len(sys.argv) > 1 else BOT_KEY
 
 bot = telebot.TeleBot(TOKEN)
+
+google_places = GooglePlaces(GOOGLE_PLACES_API_KEY)
+
+application = app = flask.Flask(__name__)
+
 engine = create_engine(DB_PATH)
 Session = sessionmaker(bind=engine)
 
-google_places = GooglePlaces(GOOGLE_PLACES_API_KEY)
+
+@app.route('/', methods=['GET', 'HEAD'])
+def index():
+    return ''
+
+
+@app.route(WEB_HOOK_URL_BASE, methods=['POST'])
+def webhook():
+    if flask.request.headers.get('content-type') == 'application/json':
+        json_string = flask.request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return ''
+    else:
+        flask.abort(403)
 
 
 def create_buttons_group(*args, **kwargs):
@@ -181,10 +202,11 @@ if __name__ == "__main__":
         logger.info((('*' * 28) + '| BOT START TIME|{}|' + ('*' * 28)).format(
             str(run_bot_time)))
         logger.info('-' * 100)
-        # bot.delete_webhook()
-        # bot.set_webhook('https://telegram-bot-search.herokuapp.com/')
-        # bot.get_updates()
-        bot.polling(interval=0, none_stop=True)
+
+        # bot.polling(interval=0, none_stop=True)
+        bot.remove_webhook()
+        bot.set_webhook(url=WEB_HOOK_URL_BASE)
+        app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000), debug=True)
     except Exception as e:
         print(e)
 

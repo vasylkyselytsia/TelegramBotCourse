@@ -1,6 +1,5 @@
 .idea/*
 *.pyc
-logs/*
-*.log
 media/*
 BotDB.sqlite3
+.env

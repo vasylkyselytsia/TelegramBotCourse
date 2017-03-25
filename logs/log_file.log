@@ -1,0 +1,314 @@
+2017-03-23 22:25:32,099 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:25:32,099 [INFO ]  ****************************| BOT START TIME|2017-03-23 22:25:32.099095|****************************
+2017-03-23 22:25:32,100 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:45:23,675 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:45:23,675 [INFO ]  ****************************| BOT START TIME|2017-03-23 22:45:23.675113|****************************
+2017-03-23 22:45:23,676 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:50:58,525 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:50:58,526 [INFO ]  ****************************| BOT START TIME|2017-03-23 22:50:58.525659|****************************
+2017-03-23 22:50:58,526 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:57:53,809 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:57:53,810 [INFO ]  ****************************| BOT START TIME|2017-03-23 22:57:53.809311|****************************
+2017-03-23 22:57:53,810 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:58:34,681 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:58:34,681 [INFO ]  ****************************| BOT START TIME|2017-03-23 22:58:34.681527|****************************
+2017-03-23 22:58:34,682 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:59:01,583 [ERROR]  Exception during reset or similar
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 5084 and this is thread id 4840
+2017-03-23 22:59:01,637 [ERROR]  Exception closing connection <sqlite3.Connection object at 0x03F147A0>
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 5084 and this is thread id 4840
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 300, in _close_connection
+    self._dialect.do_close(connection)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 446, in do_close
+    dbapi_connection.close()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 5084 and this is thread id 4840
+2017-03-23 22:59:03,775 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 22:59:03,775 [INFO ]  ****************************| BOT START TIME|2017-03-23 22:59:03.775140|****************************
+2017-03-23 22:59:03,776 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:00:55,972 [ERROR]  Exception during reset or similar
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 6528 and this is thread id 5632
+2017-03-23 23:00:55,978 [ERROR]  Exception closing connection <sqlite3.Connection object at 0x042F47A0>
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 6528 and this is thread id 5632
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 300, in _close_connection
+    self._dialect.do_close(connection)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 446, in do_close
+    dbapi_connection.close()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 6528 and this is thread id 5632
+2017-03-23 23:00:55,981 [ERROR]  Exception during reset or similar
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 6528 and this is thread id 5632
+2017-03-23 23:00:55,983 [ERROR]  Exception closing connection <sqlite3.Connection object at 0x042F4920>
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 6528 and this is thread id 5632
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 300, in _close_connection
+    self._dialect.do_close(connection)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 446, in do_close
+    dbapi_connection.close()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 6528 and this is thread id 5632
+2017-03-23 23:00:58,228 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:00:58,229 [INFO ]  ****************************| BOT START TIME|2017-03-23 23:00:58.228299|****************************
+2017-03-23 23:00:58,229 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:01:19,744 [ERROR]  Exception during reset or similar
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 2708 and this is thread id 4784
+2017-03-23 23:01:19,756 [ERROR]  Exception closing connection <sqlite3.Connection object at 0x03D04720>
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 2708 and this is thread id 4784
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 300, in _close_connection
+    self._dialect.do_close(connection)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 446, in do_close
+    dbapi_connection.close()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 2708 and this is thread id 4784
+2017-03-23 23:01:50,711 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:01:50,712 [INFO ]  ****************************| BOT START TIME|2017-03-23 23:01:50.711169|****************************
+2017-03-23 23:01:50,712 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:18:05,123 [ERROR]  Exception during reset or similar
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 7264 and this is thread id 5624
+2017-03-23 23:18:05,128 [ERROR]  Exception closing connection <sqlite3.Connection object at 0x03CC47A0>
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 7264 and this is thread id 5624
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 300, in _close_connection
+    self._dialect.do_close(connection)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 446, in do_close
+    dbapi_connection.close()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 7264 and this is thread id 5624
+2017-03-23 23:18:07,107 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:18:07,108 [INFO ]  ****************************| BOT START TIME|2017-03-23 23:18:07.107426|****************************
+2017-03-23 23:18:07,109 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:18:49,644 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:18:49,645 [INFO ]  ****************************| BOT START TIME|2017-03-23 23:18:49.644591|****************************
+2017-03-23 23:18:49,645 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:19:35,835 [ERROR]  Exception during reset or similar
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 6312 and this is thread id 4520
+2017-03-23 23:19:35,839 [ERROR]  Exception closing connection <sqlite3.Connection object at 0x04685820>
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 6312 and this is thread id 4520
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 300, in _close_connection
+    self._dialect.do_close(connection)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 446, in do_close
+    dbapi_connection.close()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 6312 and this is thread id 4520
+2017-03-23 23:19:42,592 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:19:42,593 [INFO ]  ****************************| BOT START TIME|2017-03-23 23:19:42.592880|****************************
+2017-03-23 23:19:42,594 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:19:54,164 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:19:54,165 [INFO ]  ****************************| BOT START TIME|2017-03-23 23:19:54.164803|****************************
+2017-03-23 23:19:54,165 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:20:47,347 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:20:47,347 [INFO ]  ****************************| BOT START TIME|2017-03-23 23:20:47.347076|****************************
+2017-03-23 23:20:47,348 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:23:14,238 [ERROR]  Exception during reset or similar
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 3472 and this is thread id 4968
+2017-03-23 23:23:14,242 [ERROR]  Exception closing connection <sqlite3.Connection object at 0x03B157A0>
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 3472 and this is thread id 4968
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 300, in _close_connection
+    self._dialect.do_close(connection)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 446, in do_close
+    dbapi_connection.close()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 3472 and this is thread id 4968
+2017-03-23 23:23:14,244 [ERROR]  Exception during reset or similar
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 3472 and this is thread id 4968
+2017-03-23 23:23:14,246 [ERROR]  Exception closing connection <sqlite3.Connection object at 0x03B15820>
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 687, in _finalize_fairy
+    fairy._reset(pool)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 829, in _reset
+    pool._dialect.do_rollback(self)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 440, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 3472 and this is thread id 4968
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\pool.py", line 300, in _close_connection
+    self._dialect.do_close(connection)
+  File "E:\Work\Programs\Python3.6.0\lib\site-packages\sqlalchemy\engine\default.py", line 446, in do_close
+    dbapi_connection.close()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread.The object was created in thread id 3472 and this is thread id 4968
+2017-03-23 23:23:16,050 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-23 23:23:16,051 [INFO ]  ****************************| BOT START TIME|2017-03-23 23:23:16.050255|****************************
+2017-03-23 23:23:16,051 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:54:31,426 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:54:31,440 [INFO ]  ****************************| BOT START TIME|2017-03-25 15:54:31.426000|****************************
+2017-03-25 15:54:31,440 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:54:31,793 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 15:57:56,664 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:57:56,664 [INFO ]  ****************************| BOT START TIME|2017-03-25 15:57:56.664000|****************************
+2017-03-25 15:57:56,664 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:57:56,680 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 15:58:17,763 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:58:17,765 [INFO ]  ****************************| BOT START TIME|2017-03-25 15:58:17.764000|****************************
+2017-03-25 15:58:17,765 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:58:17,779 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 15:58:29,765 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:58:29,766 [INFO ]  ****************************| BOT START TIME|2017-03-25 15:58:29.765000|****************************
+2017-03-25 15:58:29,766 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:58:29,783 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 15:58:30,572 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 15:58:54,971 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:58:54,971 [INFO ]  ****************************| BOT START TIME|2017-03-25 15:58:54.972000|****************************
+2017-03-25 15:58:54,971 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:58:54,989 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 15:58:55,802 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 15:58:58,861 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:58:58,862 [INFO ]  ****************************| BOT START TIME|2017-03-25 15:58:58.862000|****************************
+2017-03-25 15:58:58,862 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:58:58,880 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 15:58:59,648 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 15:59:32,464 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:59:32,483 [INFO ]  ****************************| BOT START TIME|2017-03-25 15:59:32.465000|****************************
+2017-03-25 15:59:32,483 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:59:32,500 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 15:59:48,891 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:59:48,892 [INFO ]  ****************************| BOT START TIME|2017-03-25 15:59:48.892000|****************************
+2017-03-25 15:59:48,892 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 15:59:48,907 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 16:00:20,628 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 16:00:20,628 [INFO ]  ****************************| BOT START TIME|2017-03-25 16:00:20.628000|****************************
+2017-03-25 16:00:20,628 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 16:00:20,642 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 16:00:23,923 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 16:00:23,924 [INFO ]  ****************************| BOT START TIME|2017-03-25 16:00:23.923000|****************************
+2017-03-25 16:00:23,924 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 16:00:23,938 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 16:00:31,546 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 16:00:31,546 [INFO ]  ****************************| BOT START TIME|2017-03-25 16:00:31.547000|****************************
+2017-03-25 16:00:31,546 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 16:00:31,579 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 16:00:32,348 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 16:00:35,012 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 16:00:35,013 [INFO ]  ****************************| BOT START TIME|2017-03-25 16:00:35.012000|****************************
+2017-03-25 16:00:35,013 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 16:00:35,030 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
+2017-03-25 16:00:37,665 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 16:00:37,667 [INFO ]  ****************************| BOT START TIME|2017-03-25 16:00:37.666000|****************************
+2017-03-25 16:00:37,667 [INFO ]  ----------------------------------------------------------------------------------------------------
+2017-03-25 16:00:37,691 [INFO ]  Starting new HTTPS connection (1): api.telegram.org
