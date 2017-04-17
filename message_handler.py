@@ -3,9 +3,8 @@ import telebot
 from googleplaces import GooglePlaces
 import speech_recognition as sr
 from pydub import AudioSegment
-from sqlalchemy import *
-from sqlalchemy.orm.exc import *
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, exc
 
 import flask
 from urllib.request import urlretrieve
@@ -42,7 +41,7 @@ def get_message():
 @app.route("/")
 def web_hook():
     bot.remove_webhook()
-    bot.set_webhook(url='http://telegram-bot-search.herokuapp.com/{}/'.format(TOKEN))
+    bot.set_webhook(url=WEB_HOOK_URL_BASE)
     log('CONNECTED {}'.format(datetime.datetime.now()))
     return 200
 
@@ -56,7 +55,7 @@ def create_buttons_group(*args, **kwargs):
 
     row_width = kwargs.get('row_width', 2)
     col_qty = kwargs.get('col_qty', 3)
-    request_location = kwargs.get('request_location', True)
+    request_location = kwargs.get('request_location', False)
     one_time_keyboard = kwargs.get('one_time_keyboard', True)
 
     markup = telebot.types.ReplyKeyboardMarkup(row_width=row_width, one_time_keyboard=one_time_keyboard)
@@ -77,10 +76,8 @@ def query_parser(message_text):
     keys = MY_TYPES.keys()
 
     for key in keys:
-        if key.upper()[:-2] in message_text:  # [:-2] Щоб відкинути закінчення
+        if key.upper()[:-1] in message_text:  # [:-1] Щоб відкинути закінчення
             query['types'].append(MY_TYPES[key])
-
-    # digests = re.findall(r'([0-9]{1,4})', message_text)  # Пошук Цифер у Строці
 
     radius = list(re.findall(r'РАДІУСІ?\b\s*((?:\d+){0,3})\s?(.*)\s?', message_text))
 
@@ -97,13 +94,19 @@ def query_parser(message_text):
         else:
             radius_query = int(radius[0]) if int(radius[0]) <= 50000 else radius_query
 
-    photos = list(re.findall(r'І(З|\b\s*ВИВЕДИ)?\b\s*((?:\d+){0,3})\b\s*(ФОТО|ЗОБР)(.*)', message_text))
+    query['radius'] = radius_query
+
+    photos = list(re.findall(r'І?(З|\b\s*ВИВЕДИ)?\b\s*((?:\d+){0,3})\b\s*(ФОТО|ЗОБР)(.*)', message_text))
 
     photos = photos[0] if photos else photos
 
     photos_qty = 2 if not photos else int(photos[1])
 
-    query['radius'] = radius_query
+    records = list(re.findall(r'І?(З|\b\s*ВИВЕДИ)?\b\s*((?:\d+){0,3})\b\s*(ЗАПИС|РЕЗУЛ)(.*)', message_text))
+
+    records = records[0] if records else records
+
+    records_qty = 2 if not records else int(records[1])
 
     by_name = re.findall(r'"((\w\s?)*)"', message_text)
 
@@ -114,17 +117,12 @@ def query_parser(message_text):
         query.pop('types', None)
 
     elif len(by_name) > 1:
-        error = 2
+        error = "У вашому повідомленні використано більше однієї власної назви, тому пошук здійснити неможливо."
 
-    result = {'query': query, 'photos_qty': photos_qty}
+    result = {'query': query, 'photos_qty': photos_qty, 'records_qty': records_qty}
     result.update({'error': error} if error else {})
 
     return result
-
-
-def validate_error(error_code):
-    message = '' or error_code
-    return message
 
 
 @bot.message_handler(commands=['help'])
@@ -142,9 +140,7 @@ def start_handler(message):
 
 @bot.message_handler(commands=['info'])
 def info_handler(message):
-    markup = telebot.types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True)
-    markup.row(telebot.types.KeyboardButton('Надати доступ', request_location=True))
-    bot.send_message(message.chat.id, HTML_INFO, parse_mode='HTML', reply_markup=markup)
+    bot.send_message(message.chat.id, HTML_INFO, parse_mode='HTML')
 
 
 @bot.message_handler(content_types=['voice'])
@@ -189,7 +185,7 @@ def get_new_location_handler(message):
         user = session.query(BotUser).filter(BotUser.chat_id == message.chat.id).one()
         user.longitude = message.location.longitude
         user.latitude = message.location.latitude
-    except NoResultFound:
+    except exc.NoResultFound:
         session.add(BotUser(
             chat_id=message.chat.id, longitude=message.location.longitude, latitude=message.location.latitude,
             user_name=message.chat.first_name + ' ' + message.chat.last_name))
@@ -211,13 +207,14 @@ def text_handler(message):
             BotUser.user_name == message.chat.first_name + ' ' + message.chat.last_name
         ).one()
         session.close()
-    except NoResultFound:
+    except exc.NoResultFound:
         bot.send_message(message.chat.id, 'Ви не надали доступ до свого місцезнаходження')
         return
 
     parser = query_parser(message.text)
     if parser.get('error', None) is not None:
-        error_message = validate_error(parser['error'])
+        bot.send_message(message.chat.id, parser['error'])
+        return
 
     query = parser.get('query')
     query['location'] = ','.join(map(str, [user.latitude, user.longitude]))
@@ -228,7 +225,7 @@ def text_handler(message):
         bot.send_message(message.chat.id, 'За вашим запитом нічого не знайдено')
         return
 
-    for place in places_result.places[:2]:
+    for place in places_result.places[:parser['records_qty']]:
         place.get_details()
         location = place.geo_location
 
@@ -259,13 +256,13 @@ def text_handler(message):
                 bot.send_chat_action(message.chat.id, 'upload_photo')
                 bot.send_photo(message.chat.id, photo.url, caption=photo.filename)
             except Exception as error:
-                print(error)
+                log(error, 'error')
                 continue
 
 
 if __name__ == "__main__":
-    # run_bot_time = datetime.datetime.now()
-    # log((('*' * 18) + '| BOT START TIME|{}|' + ('*' * 18)).format(str(run_bot_time)))
-    # bot.remove_webhook()
-    # bot.polling(interval=0, none_stop=True)
+    run_bot_time = datetime.datetime.now()
+    log((('*' * 18) + '| BOT START TIME|{}|' + ('*' * 18)).format(str(run_bot_time)))
+    bot.remove_webhook()
+    bot.polling(interval=0, none_stop=True)
     app.run(host="0.0.0.0", port=int(os.environ.get('PORT', '5000')), debug=True)
