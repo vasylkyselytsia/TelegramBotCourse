@@ -1,17 +1,24 @@
 # -*- coding: utf-8 -*-
 import telebot
+from googleplaces import GooglePlaces
+import speech_recognition as sr
+from pydub import AudioSegment
 from sqlalchemy import *
 from sqlalchemy.orm.exc import *
 from sqlalchemy.orm import sessionmaker
-from settings import *
-from db_models import BotUser
-from googleplaces import GooglePlaces
+
+import flask
+from urllib.request import urlretrieve
+
 import sys
 import re
-from log_settings import logger
 import datetime
-import flask
+import traceback
 
+from log_settings import log
+from settings import *
+from db_models import BotUser
+from telebot.apihelper import FILE_URL
 
 TOKEN = sys.argv[1] if len(sys.argv) > 1 else BOT_KEY
 
@@ -30,7 +37,7 @@ def index():
     return ''
 
 
-@app.route('/{}/'.format(BOT_KEY), methods=['POST'])
+@app.route('/{}/'.format(TOKEN), methods=['POST'])
 def webhook():
     if flask.request.headers.get('content-type') == 'application/json':
         json_string = flask.request.get_data().decode('utf-8')
@@ -76,7 +83,7 @@ def query_parser(message_text):
 
     # digests = re.findall(r'([0-9]{1,4})', message_text)  # Пошук Цифер у Строці
 
-    radius = list(re.findall(r"РАДІУСІ?\b\s*((?:\d+){0,3})\s?(.*)\s?", message_text))
+    radius = list(re.findall(r'РАДІУСІ?\b\s*((?:\d+){0,3})\s?(.*)\s?', message_text))
 
     radius = radius[0] if radius else radius
 
@@ -91,17 +98,34 @@ def query_parser(message_text):
         else:
             radius_query = int(radius[0]) if int(radius[0]) <= 50000 else radius_query
 
-    photos = list(re.findall(r"І(З|\b\s*ВИВЕДИ)?\b\s*((?:\d+){0,3})\b\s*(ФОТО|ЗОБР)(.*)", message_text))
+    photos = list(re.findall(r'І(З|\b\s*ВИВЕДИ)?\b\s*((?:\d+){0,3})\b\s*(ФОТО|ЗОБР)(.*)', message_text))
 
     photos = photos[0] if photos else photos
 
-    photos_qty = 0 if not photos else int(photos[1])
+    photos_qty = 2 if not photos else int(photos[1])
 
     query['radius'] = radius_query
 
-    # print(photos, query)
+    by_name = re.findall(r'"((\w\s?)*)"', message_text)
 
-    return {'query': query, 'photos_qty': photos_qty}
+    error = 0
+
+    if len(by_name) == 1:
+        query['name'] = by_name.pop()[0]
+        query.pop('types', None)
+
+    elif len(by_name) > 1:
+        error = 2
+
+    result = {'query': query, 'photos_qty': photos_qty}
+    result.update({'error': error} if error else {})
+
+    return result
+
+
+def validate_error(error_code):
+    message = '' or error_code
+    return message
 
 
 @bot.message_handler(commands=['help'])
@@ -115,6 +139,45 @@ def start_handler(message):
     markup = telebot.types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True)
     markup.row(telebot.types.KeyboardButton('Надати доступ', request_location=True))
     bot.send_message(message.chat.id, HTML_START, parse_mode='HTML', reply_markup=markup)
+
+
+@bot.message_handler(commands=['info'])
+def info_handler(message):
+    markup = telebot.types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True)
+    markup.row(telebot.types.KeyboardButton('Надати доступ', request_location=True))
+    bot.send_message(message.chat.id, HTML_START, parse_mode='HTML', reply_markup=markup)
+
+
+@bot.message_handler(content_types=['voice'])
+def voices_handler(message):
+    file_path = bot.get_file(message.voice.file_id).file_path
+
+    save_path = os.path.join(dir_path, file_path.replace('/', '\\').replace('.oga', 'ogg'))
+    new_file = save_path.replace('.ogg', '.wav')
+
+    urlretrieve(FILE_URL.format(TOKEN, file_path), save_path)
+
+    AudioSegment.from_ogg(save_path).export(new_file, format='wav')
+
+    r = sr.Recognizer()
+
+    with sr.AudioFile(new_file) as source:
+        audio = r.record(source)
+    try:
+        msg = r.recognize_google(audio, language='uk-UK')
+        message.text = msg
+        text_handler(message)
+    except sr.UnknownValueError as e:
+        bot.send_message(message.chat.id, 'Спробуй повторити ше раз!')
+        log(e, status='warning')
+    except sr.RequestError as e:
+        bot.send_message(message.chat.id, 'Сервіс розпізнавання голосу тимчасоо непрацює!')
+        log(e, status='warning')
+    except Exception as e:
+        log(traceback.format_exc(), status='error')
+        log(e, status='error')
+    os.remove(save_path)
+    return
 
 
 @bot.message_handler(content_types=['location'])
@@ -131,6 +194,7 @@ def get_new_location_handler(message):
             user_name=message.chat.first_name + ' ' + message.chat.last_name))
 
     session.commit()
+    session.close()
 
     bot.send_message(message.chat.id, 'Виберіть що ви шукаєте', reply_markup=create_buttons_group(
         *MY_TYPES.keys(), row_width=3, col_qty=2, request_location=False))
@@ -145,12 +209,15 @@ def text_handler(message):
             BotUser.chat_id == int(message.chat.id),
             BotUser.user_name == message.chat.first_name + ' ' + message.chat.last_name
         ).one()
+        session.close()
     except NoResultFound:
         bot.send_message(message.chat.id, 'Ви не надали доступ до свого місцезнаходження')
         return
 
     parser = query_parser(message.text)
-    print(parser)
+    if parser.get('error', None) is not None:
+        error_message = validate_error(parser['error'])
+
     query = parser.get('query')
     query['location'] = ','.join(map(str, [user.latitude, user.longitude]))
 
@@ -196,17 +263,10 @@ def text_handler(message):
 
 
 if __name__ == "__main__":
-    try:
-        run_bot_time = datetime.datetime.now()
-        logger.info('-' * 100)
-        logger.info((('*' * 28) + '| BOT START TIME|{}|' + ('*' * 28)).format(
-            str(run_bot_time)))
-        logger.info('-' * 100)
+    run_bot_time = datetime.datetime.now()
+    log((('*' * 18) + '| BOT START TIME|{}|' + ('*' * 18)).format(str(run_bot_time)))
+    bot.remove_webhook()
+    bot.polling(interval=0, none_stop=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', '5000')), debug=True)
 
-        # bot.polling(interval=0, none_stop=True)
-        bot.remove_webhook()
-        bot.set_webhook(url=WEB_HOOK_URL_BASE)
-        app.run(host="0.0.0.0", port=int(os.environ.get('PORT', '5000')), debug=True)
-    except Exception as e:
-        print(e)
 
