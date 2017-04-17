@@ -32,20 +32,19 @@ engine = create_engine(DB_PATH)
 Session = sessionmaker(bind=engine)
 
 
-@app.route('/', methods=['GET', 'HEAD'])
-def index():
-    return ''
-
-
 @app.route('/{}/'.format(TOKEN), methods=['POST'])
-def webhook():
-    if flask.request.headers.get('content-type') == 'application/json':
-        json_string = flask.request.get_data().decode('utf-8')
-        update = telebot.types.Update.de_json(json_string)
-        bot.process_new_updates([update])
-        return ''
-    else:
-        flask.abort(403)
+def get_message():
+    bot.process_new_updates([telebot.types.Update.de_json(flask.request.stream.read().decode("utf-8"))])
+    log('Request {}'.format(datetime.datetime.now()))
+    return 200
+
+
+@app.route("/")
+def web_hook():
+    bot.remove_webhook()
+    bot.set_webhook(url='http://telegram-bot-search.herokuapp.com/{}/'.format(TOKEN))
+    log('CONNECTED {}'.format(datetime.datetime.now()))
+    return 200
 
 
 def create_buttons_group(*args, **kwargs):
@@ -145,7 +144,7 @@ def start_handler(message):
 def info_handler(message):
     markup = telebot.types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True)
     markup.row(telebot.types.KeyboardButton('Надати доступ', request_location=True))
-    bot.send_message(message.chat.id, HTML_START, parse_mode='HTML', reply_markup=markup)
+    bot.send_message(message.chat.id, HTML_INFO, parse_mode='HTML', reply_markup=markup)
 
 
 @bot.message_handler(content_types=['voice'])
@@ -174,6 +173,8 @@ def voices_handler(message):
         bot.send_message(message.chat.id, 'Сервіс розпізнавання голосу тимчасоо непрацює!')
         log(e, status='warning')
     except Exception as e:
+        bot.send_message(message.chat.id, 'Голосове повідомлення не розпізнано!'
+                                          ' Спробуйте ще раз, або введіть запит із клавіатури!')
         log(traceback.format_exc(), status='error')
         log(e, status='error')
     os.remove(save_path)
@@ -263,10 +264,8 @@ def text_handler(message):
 
 
 if __name__ == "__main__":
-    run_bot_time = datetime.datetime.now()
-    log((('*' * 18) + '| BOT START TIME|{}|' + ('*' * 18)).format(str(run_bot_time)))
-    bot.remove_webhook()
-    bot.polling(interval=0, none_stop=True)
+    # run_bot_time = datetime.datetime.now()
+    # log((('*' * 18) + '| BOT START TIME|{}|' + ('*' * 18)).format(str(run_bot_time)))
+    # bot.remove_webhook()
+    # bot.polling(interval=0, none_stop=True)
     app.run(host="0.0.0.0", port=int(os.environ.get('PORT', '5000')), debug=True)
-
-
