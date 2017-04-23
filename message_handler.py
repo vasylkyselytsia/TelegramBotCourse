@@ -147,7 +147,7 @@ def info_handler(message):
 def voices_handler(message):
     file_path = bot.get_file(message.voice.file_id).file_path
 
-    save_path = os.path.join(dir_path, file_path.replace('/', '\\').replace('.oga', 'ogg'))
+    save_path = os.path.join(dir_path, file_path.replace('/', '\\').replace('.oga', '.ogg'))
     new_file = save_path.replace('.ogg', '.wav')
 
     urlretrieve(FILE_URL.format(TOKEN, file_path), save_path)
@@ -174,6 +174,7 @@ def voices_handler(message):
         log(traceback.format_exc(), status='error')
         log(e, status='error')
     os.remove(save_path)
+    os.remove(new_file)
     return
 
 
