@@ -127,8 +127,7 @@ def query_parser(message_text):
 
 @bot.message_handler(commands=['help'])
 def help_handler(message):
-    bot.send_message(message.chat.id, HTML_HELP.format(message.chat.first_name, message.chat.last_name),
-                     parse_mode='HTML')
+    bot.send_message(message.chat.id, HTML_INFO, parse_mode='HTML')
 
 
 @bot.message_handler(commands=['start'])
@@ -140,7 +139,8 @@ def start_handler(message):
 
 @bot.message_handler(commands=['info'])
 def info_handler(message):
-    bot.send_message(message.chat.id, HTML_INFO, parse_mode='HTML')
+    bot.send_message(message.chat.id, HTML_HELP.format(message.chat.first_name, message.chat.last_name),
+                     parse_mode='HTML')
 
 
 @bot.message_handler(content_types=['voice'])
